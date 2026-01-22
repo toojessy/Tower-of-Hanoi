@@ -41,10 +41,12 @@ public class TowerOfHanoi {
      */
     public static void moveDisks(int n, char source, char destination, char auxiliary) {
         // TODO: Implement base case
-        
+        if (n ==n 1) {
+            
+        }
         
         // TODO: Implement recursive case (3 steps)
-        
+        return.
         
     }
     
