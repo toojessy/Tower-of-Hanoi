@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Tower of Hanoi Lab
  * 
@@ -16,12 +18,17 @@
  *   2. Move the largest disk from source to destination
  *   3. Move n-1 disks from auxiliary to destination (using source as helper)
  * 
- * @author Your Name
+ * @author Jessica
  */
 public class TowerOfHanoi {
     
     // Part 3: Move counter (you'll add this)
     private static int moveCount = 0;
+
+    // Peg representations for visualization
+    private static ArrayList<Integer> pegA = new ArrayList<>();
+    private static ArrayList<Integer> pegB = new ArrayList<>();
+    private static ArrayList<Integer> pegC = new ArrayList<>();
     
     /**
      * PART 1: Implement the classic Tower of Hanoi solver
@@ -47,10 +54,9 @@ public class TowerOfHanoi {
         }
         
         // TODO: Implement recursive case (3 steps)
-        moveDisks (n - 1, source, auxiliary destination);
-        moveSingleDisk (source, destination);
-        moveDisks (n -1, auxiliary, destination, source);
-        
+        moveDisks(n - 1, source, auxiliary, destination);
+        moveSingleDisk(source, destination);
+        moveDisks(n - 1, auxiliary, destination, source);
     }
     
     /**
@@ -72,6 +78,11 @@ public class TowerOfHanoi {
         // TODO: Implement tower visualization
         System.out.println("--- Tower State ---");
         // Display pegs A, B, C and their disks
+        System.out.println("A: " + pegA);
+        System.out.println("B: " + pegB);
+        System.out.println("C: " + pegC);
+        
+        System.out.println();
     }
     
     /**
@@ -95,6 +106,28 @@ public class TowerOfHanoi {
         } else {
             System.out.println("WARNING: Not optimal.");
         }
+
+        if (pegC.size() == n) {
+            System.out.println("All disks successfully moved to C!");
+        }
+    }
+
+    private static void moveSingleDisk(char source, char destination) {
+        ArrayList<Integer> fromPeg = getPeg(source);
+        ArrayList<Integer> toPeg = getPeg(destination);
+
+        int disk = fromPeg.remove(fromPeg.size() - 1);
+        toPeg.add(disk);
+
+        moveCount++;
+        System.out.println("Move disk " + disk + " from " + source + " to " + destination);
+        displayTowers();
+    }
+
+    private static ArrayList<Integer> getPeg(char peg) {
+        if (peg == 'A') return pegA;
+        if (peg == 'B') return pegB;
+        return pegC;
     }
     
     public static void main(String[] args) {
@@ -105,6 +138,16 @@ public class TowerOfHanoi {
         
         // Reset move counter
         moveCount = 0;
+
+        pegA.clear();
+        pegB.clear();
+        pegC.clear();
+
+        for (int i = n; i >= 1; i--) {
+            pegA.add(i);
+        }
+
+        displayTowers();
         
         // Solve the puzzle
         moveDisks(n, 'A', 'C', 'B');
@@ -115,6 +158,16 @@ public class TowerOfHanoi {
         // Test with different numbers of disks
         System.out.println("\n\n=== Try with 4 disks ===");
         moveCount = 0;
+
+        pegA.clear();
+        pegB.clear();
+        pegC.clear();
+
+        for (int i = 4; i >= 1; i--) {
+            pegA.add(i);
+        }
+
+        displayTowers();
         moveDisks(4, 'A', 'C', 'B');
         printStatistics(4);
     }
